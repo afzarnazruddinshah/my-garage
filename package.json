@@ -1,0 +1,15 @@
+{
+  "name": "mygarage",
+  "version": "1.0.0",
+  "description": "mechanic garage app",
+  "license": "ISC",
+  "author": "livingstone",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
