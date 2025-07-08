@@ -7,9 +7,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
 
-
-app.get('/getGreeting', (req, res) => {
-  res.send('Hello World!')
-})
+//separate routes inside routes folder - modularity
+const sampleRoutes = require('./routes/sampleRoutes');
+app.use('/sampleRoute', sampleRoutes);
 
 module.exports = app;
