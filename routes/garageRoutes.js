@@ -24,4 +24,25 @@ router.get("/technicians", async (req, res) => {
     });
 });
 
+router.get("/garage/:id", async (req, res) => {
+  const garageId = req.params.id;
+  db.any(
+    `SELECT 
+      garages.gid, 
+      garages.name, 
+      garages.address, 
+      garages.city, 
+      garages.state, 
+      garages.zipcode 
+    FROM garages
+    WHERE garages.gid = ${garageId};`
+  )
+    .then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    })
+    .catch((error) => {
+      res.json({ error, status: constants.errorStatus });
+    });
+});
+
 module.exports = router;
