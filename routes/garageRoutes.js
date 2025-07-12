@@ -28,14 +28,12 @@ router.get("/garage/:id", async (req, res) => {
   const garageId = req.params.id;
   db.any(
     `SELECT 
-      garages.gid, 
-      garages.name, 
-      garages.address, 
-      garages.city, 
-      garages.state, 
-      garages.zipcode 
-    FROM garages
-    WHERE garages.gid = ${garageId};`
+      garages.gid, garages.name, garages.address, garages.city, garages.state, garages.zipcode, 
+      garage_owners.name AS garage_owner_name, garage_owners.phone, garage_owners.email
+      FROM garages
+      JOIN garage_owners
+      ON garages.owner_id = garage_owners.gid
+      WHERE garages.gid = 101;`
   )
     .then((data) => {
       res.json({ status: constants.successStatus, data: data });
