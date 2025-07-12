@@ -33,7 +33,27 @@ router.get("/garage/:id", async (req, res) => {
       FROM garages
       JOIN garage_owners
       ON garages.owner_id = garage_owners.gid
-      WHERE garages.gid = 101;`
+      WHERE garages.gid = ${garageId};`
+  )
+    .then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    })
+    .catch((error) => {
+      res.json({ error, status: constants.errorStatus });
+    });
+});
+
+router.get("/vehicles", async (req, res) => {
+  db.any(
+    `SELECT 
+      vehicles.vin, 
+      vehicles.make, 
+      vehicles.model, 
+      vehicles.make_year, 
+      vehicles.owner_id, 
+      vehicles.odo_reading, 
+      vehicles.last_service
+    FROM vehicles;`
   )
     .then((data) => {
       res.json({ status: constants.successStatus, data: data });
