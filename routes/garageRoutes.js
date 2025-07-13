@@ -63,4 +63,26 @@ router.get("/vehicles", async (req, res) => {
     });
 });
 
+router.get("/customers", async (req, res) => {
+  db.any(
+    `SELECT 
+  customers.cid, 
+  customers.name, 
+  customers.gender, 
+  customers.phone, 
+  customers.email, 
+  customers.veh1_id, 
+  customers.veh2_id, 
+  customers.veh3_id, 
+  customers.veh4_id
+FROM customers;`
+  )
+    .then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    })
+    .catch((error) => {
+      res.json({ error, status: constants.errorStatus });
+    });
+});
+
 module.exports = router;
