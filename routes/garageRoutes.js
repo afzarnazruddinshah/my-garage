@@ -85,4 +85,28 @@ FROM customers;`
     });
 });
 
+router.get("/assignments", async (req, res) => {
+  db.any(
+    `SELECT 
+      assignments.aid, 
+      assignments.vin, 
+      customers.name as owner_name, 
+      assignments.checkin_date, 
+      assignments.issue, 
+      assignments.status, 
+      technicians.name as technician_name
+    FROM assignments
+    JOIN customers
+    ON assignments.owner_id = customers.cid
+    JOIN technicians
+    ON assignments.technician_id = technicians.emp_id;`
+  )
+    .then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    })
+    .catch((error) => {
+      res.json({ error, status: constants.errorStatus });
+    });
+});
+
 module.exports = router;
