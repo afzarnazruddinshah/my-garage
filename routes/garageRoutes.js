@@ -96,9 +96,9 @@ router.get("/assignments", async (req, res) => {
       assignments.status, 
       technicians.name as technician_name
     FROM assignments
-    JOIN customers
+    LEFT JOIN customers
     ON assignments.owner_id = customers.cid
-    JOIN technicians
+    LEFT JOIN technicians
     ON assignments.technician_id = technicians.emp_id;`
   )
     .then((data) => {
