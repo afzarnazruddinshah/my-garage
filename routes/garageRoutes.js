@@ -109,4 +109,21 @@ router.get("/assignments", async (req, res) => {
     });
 });
 
+router.get("/transactions", async (req, res) => {
+  db.any(
+    `SELECT 
+      transactions.txn_id, 
+      transactions.assignment_id, 
+      transactions.cost, 
+      transactions.status, 
+      transactions.payment_mode 
+     FROM transactions;`
+  )
+    .then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    })
+    .catch((error) => {
+      res.json({ error, status: constants.errorStatus });
+    });
+});
 module.exports = router;
