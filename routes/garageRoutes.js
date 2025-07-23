@@ -128,7 +128,7 @@ router.get("/transactions", async (req, res) => {
 });
 
 router.get("/getTransactions", async (req, res) => {
-  let date = String(req.query.date);
+  let date = String(req.query.date || "");
   let operator = "<";
   if (!date) {
     date = "2025-01-01";
