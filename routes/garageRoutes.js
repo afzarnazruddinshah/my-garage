@@ -126,4 +126,26 @@ router.get("/transactions", async (req, res) => {
       res.json({ error, status: constants.errorStatus });
     });
 });
+
+router.get("/getTransactions", async (req, res) => {
+  let date = String(req.query.date);
+  let operator = "<";
+  if (!date) {
+    date = "2025-01-01";
+    operator = ">=";
+  }
+  db.any(
+    `SELECT txn_id, assignment_id, cost, status, payment_mode, txn_date
+     FROM transactions
+     WHERE txn_date ${operator} '${date}'
+     ORDER BY txn_date desc
+     LIMIT 10;`
+  )
+    .then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    })
+    .catch((error) => {
+      res.json({ error, status: constants.errorStatus });
+    });
+});
 module.exports = router;
