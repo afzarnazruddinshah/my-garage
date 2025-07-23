@@ -148,4 +148,17 @@ router.get("/getTransactions", async (req, res) => {
       res.json({ error, status: constants.errorStatus });
     });
 });
+
+router.get("/getTotalTransactions", async (req, res) => {
+  
+  db.any(
+    `SELECT count(txn_id) FROM transactions;`
+  )
+    .then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    })
+    .catch((error) => {
+      res.json({ error, status: constants.errorStatus });
+    });
+});
 module.exports = router;
