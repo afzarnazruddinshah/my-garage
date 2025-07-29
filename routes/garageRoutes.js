@@ -140,7 +140,7 @@ router.get("/getTransactions", async (req, res) => {
   last = String(last || "2026-01-01");
   let whereStatement = "";
   if (direction === "forward") {
-    whereStatement = `WHERE txn_date < '${last}`;
+    whereStatement = `WHERE txn_date < '${last}'`;
   } else {
     whereStatement = `WHERE txn_date <= '${first}' AND txn_date >= '${last}'`;
   }
