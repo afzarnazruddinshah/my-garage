@@ -127,18 +127,28 @@ router.get("/transactions", async (req, res) => {
     });
 });
 
+/*
+page1: /getTransactions?direction=forward
+page2: /getTransactions?direction=forward&last=2025-11-22
+page3: /getTransactions?direction=forward&last=2025-10-28
+From Page3 to Page2:
+/getTransactions?direction=backwards&last=2025-10-28&first=2025-11-17
+*/
 router.get("/getTransactions", async (req, res) => {
-  let date = String(req.query.date || "");
-  let operator = "<";
-  if (!date) {
-    date = "2025-01-01";
-    operator = ">=";
+  let { direction, first, last } = req.query;
+  first = String(first || "");
+  last = String(last || "2026-01-01");
+  let whereStatement = "";
+  if (direction === "forward") {
+    whereStatement = `WHERE txn_date < '${last}`;
+  } else {
+    whereStatement = `WHERE txn_date <= '${first}' AND txn_date >= '${last}'`;
   }
   db.any(
     `SELECT txn_id, assignment_id, cost, status, payment_mode, txn_date
-     FROM transactions
-     WHERE txn_date ${operator} '${date}'
-     ORDER BY txn_date desc
+     FROM transactions 
+     ${whereStatement} 
+     ORDER BY txn_date DESC
      LIMIT 10;`
   )
     .then((data) => {
