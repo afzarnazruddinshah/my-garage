@@ -220,4 +220,24 @@ router.post("/vehicle", async (req, res) => {
     });
   }
 });
+
+router.post("/assignment", async (req, res) => {
+  let { vehicleNum, owner_id, checkin_date, issue } = req.body;
+  if (vehicleNum && owner_id && checkin_date && issue) {
+    db.one(
+      `INSERT INTO assignments VALUES (
+'${vehicleNum}', ${owner_id}, '${checkin_date}', '${issue}', 'PENDING', 10) RETURNING assgn_id;`
+    ).then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    });
+  } else {
+    res.json({
+      status: {
+        statusCode: 200,
+        statusFlag: "ERROR",
+        statusMsg: "Please fill all the Required Fields",
+      },
+    });
+  }
+});
 module.exports = router;
