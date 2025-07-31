@@ -173,6 +173,8 @@ router.get("/getTotalTransactions", async (req, res) => {
 });
 
 router.post("/customer", async (req, res) => {
+console.log("req", req);
+console.log("body", req.body);
   let { name, gender, phone, email, vehicleNum } = req.body;
   if (name && gender && phone && email && vehicleNum) {
     db.one(
