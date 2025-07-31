@@ -206,7 +206,7 @@ router.post("/vehicle", async (req, res) => {
   ) {
     db.one(
       `INSERT INTO vehicles VALUES (
-        '${vehicleNum}', '${make}', '${model}', ${year}, ${owner_id}, ${odo_reading}, '${last_service}');`
+        '${vehicleNum}', '${make}', '${model}', ${year}, ${owner_id}, ${odo_reading}, '${last_service}') RETURNING vin;`
     ).then((data) => {
       res.json({ status: constants.successStatus, data: data });
     });
