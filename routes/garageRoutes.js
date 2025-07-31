@@ -191,4 +191,33 @@ router.post("/customer", async (req, res) => {
     });
   }
 });
+
+router.post("/vehicle", async (req, res) => {
+  let { vehicleNum, make, model, year, owner_id, odo_reading, last_service } =
+    req.body;
+  if (
+    vehicleNum &&
+    make &&
+    model &&
+    year &&
+    owner_id &&
+    odo_reading &&
+    last_service
+  ) {
+    db.one(
+      `INSERT INTO vehicles VALUES (
+        '${vehicleNum}', '${make}', '${model}', ${year}, ${owner_id}, ${odo_reading}, '${last_service}');`
+    ).then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    });
+  } else {
+    res.json({
+      status: {
+        statusCode: 200,
+        statusFlag: "ERROR",
+        statusMsg: "Please fill all the Required Fields",
+      },
+    });
+  }
+});
 module.exports = router;
