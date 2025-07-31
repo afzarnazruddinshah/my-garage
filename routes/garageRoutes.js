@@ -171,4 +171,24 @@ router.get("/getTotalTransactions", async (req, res) => {
       res.json({ error, status: constants.errorStatus });
     });
 });
+
+router.post("/customer", async (req, res) => {
+  let { name, gender, phone, email, vehicleNum } = req.body;
+  if (name && gender && phone && email && vehicleNum) {
+    db.one(
+      `INSERT INTO CUSTOMERS VALUES(
+        '${name}', '${gender}', '${phone}', '${email}', '${vehicleNum}', 0, 0, 0) RETURNING cust_id;`
+    ).then((data) => {
+      res.json({ status: constants.successStatus, data: data });
+    });
+  } else {
+    res.json({
+      status: {
+        statusCode: 200,
+        statusFlag: "ERROR",
+        statusMsg: "Please fill all the Required Fields",
+      },
+    });
+  }
+});
 module.exports = router;
