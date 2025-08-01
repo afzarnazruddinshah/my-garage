@@ -6,7 +6,7 @@ const constants = require("../_utils/constants");
 router.get("/technicians", async (req, res) => {
   db.any(
     `SELECT 
-      technicians.emp_id, 
+      technicians.tid, 
       technicians.name, 
       technicians.gender, 
       technicians.age, 
