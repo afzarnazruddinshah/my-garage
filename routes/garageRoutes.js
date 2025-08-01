@@ -66,7 +66,7 @@ router.get("/vehicles", async (req, res) => {
 router.get("/customers", async (req, res) => {
   db.any(
     `SELECT 
-  customers.cid, 
+  customers.cust_id, 
   customers.name, 
   customers.gender, 
   customers.phone, 
