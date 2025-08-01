@@ -88,7 +88,7 @@ FROM customers;`
 router.get("/assignments", async (req, res) => {
   db.any(
     `SELECT 
-      assignments.aid, 
+      assignments.assgn_id, 
       assignments.vin, 
       customers.name as owner_name, 
       assignments.checkin_date, 
@@ -97,9 +97,9 @@ router.get("/assignments", async (req, res) => {
       technicians.name as technician_name
     FROM assignments
     LEFT JOIN customers
-    ON assignments.owner_id = customers.cid
+    ON assignments.owner_id = customers.cust_id
     LEFT JOIN technicians
-    ON assignments.technician_id = technicians.emp_id;`
+    ON assignments.technician_id = technicians.tid;`
   )
     .then((data) => {
       res.json({ status: constants.successStatus, data: data });
