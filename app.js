@@ -13,7 +13,11 @@ app.use(cors());
 
 const sampleRoutes = require("./routes/sampleRoutes");
 const garageRoutes = require("./routes/garageRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
+
 app.use("/sampleRoute", sampleRoutes);
 app.use("/garage", garageRoutes);
+app.use("/analytics", analyticsRoutes);
 
 module.exports = app;
+
