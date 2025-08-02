@@ -127,28 +127,27 @@ router.get("/transactions", async (req, res) => {
     });
 });
 
-/*
-page1: /getTransactions?direction=forward
-page2: /getTransactions?direction=forward&last=2025-11-22
-page3: /getTransactions?direction=forward&last=2025-10-28
-From Page3 to Page2:
-/getTransactions?direction=backwards&last=2025-10-28&first=2025-11-17
-*/
+/* paginated transactions API*/
 router.get("/getTransactions", async (req, res) => {
-  let { direction, first, last } = req.query;
+  let { direction, first, last, pageNum } = req.query;
   first = String(first || "");
   last = String(last || "2026-01-01");
   let whereStatement = "";
+  let offsetStatement = "";
   if (direction === "forward") {
     whereStatement = `WHERE txn_date < '${last}'`;
-  } else {
+  } else if (direction === "backward") {
     whereStatement = `WHERE txn_date <= '${first}' AND txn_date >= '${last}'`;
+  } else if(direction === "jump") {
+      let offsetValue = (pageNum - 1) * 10;
+      offsetStatement = `OFFSET ${offsetValue}`
   }
   db.any(
     `SELECT txn_id, assignment_id, cost, status, payment_mode, txn_date
      FROM transactions 
      ${whereStatement} 
      ORDER BY txn_date DESC
+     ${offsetStatement}
      LIMIT 10;`
   )
     .then((data) => {
@@ -243,3 +242,4 @@ router.post("/assignment", async (req, res) => {
   }
 });
 module.exports = router;
+
