@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../db");
 const constants = require("../_utils/constants");
 
-router.post("/analytics/most-serviced", async (req, res) => {
+router.post("/vehicles/most-serviced", async (req, res) => {
   let { hasModel, startDate, endDate } = req.query;
   let modelColumn = "";
   let groupByModelStatement = "";
@@ -36,3 +36,4 @@ router.post("/analytics/most-serviced", async (req, res) => {
 });
 
 module.exports = router;
+
